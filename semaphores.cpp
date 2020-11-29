@@ -39,6 +39,9 @@ void Semaphore::acquire(uint64_t n) {
         uint64_t limit = local_state >> 32;
         uint64_t count = local_state & 0xFFFFFFFF;
         uint64_t new_count = count + n;
+        if (n > limit) {
+            throw std::invalid_argument("n cannot be greater than the limit");
+        }
         if (new_count <= limit) {
             if (this->state.compare_exchange_weak(local_state, (limit<<32) + (count + n))) {
                 return;

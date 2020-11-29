@@ -12,6 +12,8 @@ public:
         this->acquire_throwsException_negativeN();
         this->try_acquire_shouldReturnFalseWhenFull();
         this->try_acquire_shouldReturnTrueWhenNotFull();
+        this->acquireAndRelease();
+        this->test_acquireMoreThanLimit_shouldThrowError();
     }
     void acquire_throwsException_negativeN() {
         Semaphore s(1, 1);
@@ -67,6 +69,37 @@ public:
         } catch(const std::exception& e) {
             fail(e.what());
         }
+    }
+
+    void acquireAndRelease() {
+        Semaphore s(0, 1);
+        try
+        {
+            s.acquire(1);
+            assert_equals(s.get_count(), 1, "count does not match");
+
+            s.release(1);
+            assert_equals(s.get_count(), 0, "count should be zero");
+
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+
+    void test_acquireMoreThanLimit_shouldThrowError() {
+        Semaphore s(0, 1);
+        try
+        {
+            s.acquire(10);
+            fail("acquire did not throw error when acquiring more than limit");
+        }
+        catch(const std::exception& e)
+        {
+            pass(e.what());
+        }
+        
     }
 };
 
