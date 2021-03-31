@@ -1,26 +1,41 @@
-cmake_minimum_required(VERSION 3.0.0)
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
-set(CTEST_BINARY_DIRECTORY ${PROJECT_BINARY_DIR}/tests)
+project(rezsem)
+cmake_minimum_required(VERSION 3.6)
+
+if(MSVC)
+  # Force to always compile with W4
+  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  endif()
+elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  # Update if necessary
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
+endif()
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Disable deprecation for windows
+if (WIN32)
+	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+endif()
 
 find_package(Threads REQUIRED)
-file(GLOB files "test_*.cpp")
+file(GLOB TEST_SOURCES
+	main.cpp
+	"test_*.cpp"
+)
 
-link_directories(BEFORE ../build)
-link_libraries(rezsemaphores)
+set_source_files_properties(main.cpp
+    PROPERTIES
+    COMPILE_DEFINITIONS DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN)
+	
+ADD_EXECUTABLE(REZSEM ${TEST_SOURCES})
+INCLUDE_DIRECTORIES("../include" ".")
+target_link_libraries(REZSEM ${CMAKE_THREAD_LIBS_INIT})
+set_target_properties(REZSEM PROPERTIES OUTPUT_NAME tests)
 
-foreach(file ${files})
-	string(REGEX REPLACE "(^.*/|\\.[^.]*$)" "" file_without_ext ${file})
-	add_executable(${file_without_ext} ${file})
-	target_link_libraries(${file_without_ext} ${PROJECT_LIBS})
-	target_link_libraries(${file_without_ext} ${CMAKE_THREAD_LIBS_INIT})
-	add_test(${file_without_ext} ${file_without_ext})
-	set_tests_properties(${file_without_ext}
-		PROPERTIES
-		PASS_REGULAR_EXPRESSION "(Test passed)")
-	set_tests_properties(${file_without_ext}
-		PROPERTIES
-		FAIL_REGULAR_EXPRESSION "( Exception |Test failed)")
-	set_tests_properties(${file_without_ext}
-		PROPERTIES
-		TIMEOUT 120)
-endforeach()
+set_property(TARGET REZSEM PROPERTY CXX_STANDARD 17)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ARGPARSE)

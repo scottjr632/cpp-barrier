@@ -1,63 +1,48 @@
 #include <iostream>
 #include <atomic>
-#include <thread>
 #include <vector>
+#include <thread>
 
-#include "../rezsemaphores.hpp"
-#include "utils.h"
+#include <doctest.h>
+#include <rezsem/rezsemaphores.hpp>
 
-#define MAX 25
 
 std::atomic<uint64_t> ai;
-
-Semaphore pingSem(0, 1);
-Semaphore pongSem(1, 1);
+rezsem::Semaphore pingSem(0, 1);
+rezsem::Semaphore pongSem(1, 1);
 std::vector<std::string> pingPongs;
 
-
-void ping() {
-    for (int i = 0; i < MAX; i++) {
-        pingSem.acquire(1);
-        std::cout << "ping -> ";
+void ping(int iters) {
+    for (int i = 0; i < iters; i++) {
+        pingSem.Acquire();
         pingPongs.push_back("ping");
-        pongSem.release(1);
+        pongSem.Release();
     }
 }
 
-void pong() {
-    for (int i = 0; i < MAX; i++) {
-        pongSem.acquire(1);
+void pong(int iters) {
+    for (int i = 0; i < iters; i++) {
+        pongSem.Acquire();
         pingPongs.push_back("pong");
-        std::cout << "pong" << std::endl;
-        pingSem.release(1);
+        pingSem.Release();
     }
 }
 
-int main() {
-    std::thread pt(ping);
-    std::thread pp(pong);
+TEST_CASE("Ping Pong") {
+    int iters = 50;
+    std::thread pt(ping, iters);
+    std::thread pp(pong, iters);
 
     pt.join();
     pp.join();
 
-    if (pingPongs.size() != (MAX * 2)) {
-        fail("pingPongs is not the correct size got");
-        return 0;
-    }
+    CHECK(pingPongs.size() == (iters * 2));
 
-    for (int i = 0; i < MAX * 2; i++) {
+    for (int i = 0; i < (iters * 2); i++) {
         if (i % 2 == 0) {
-            if (pingPongs[i] != "ping") {
-                fail("expected ping but didnt get");
-                return 0;
-            }
+            CHECK(pingPongs[i] == "ping");
         } else {
-            if (pingPongs[i] != "pong") {
-                fail("expected pong");
-                return 0;
-            }
+            CHECK(pingPongs[i] == "pong");
         }
     }
-
-    pass("");
 }
