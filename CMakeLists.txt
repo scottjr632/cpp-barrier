@@ -12,6 +12,12 @@ endif()
 
 find_package(Threads REQUIRED)
 add_library(rezsemaphores semaphores.cpp)
+set_target_properties(rezsemaphores PROPERTIES PUBLIC_HEADER rezsemaphores.hpp)
+
+install(TARGETS rezsemaphores
+        PUBLIC_HEADER
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
