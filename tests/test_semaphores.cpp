@@ -3,7 +3,7 @@
 
 #include "utils.h"
 #include "current_function.hpp"
-#include "../semaphores.hpp"
+#include "../rezsemaphores.hpp"
 
 class TestSemaphore {
 public:

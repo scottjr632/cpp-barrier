@@ -3,7 +3,7 @@
 #include <thread>
 #include <vector>
 
-#include "../semaphores.hpp"
+#include "../rezsemaphores.hpp"
 #include "utils.h"
 
 #define MAX 25
