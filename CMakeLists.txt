@@ -8,7 +8,7 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-find_package(threads REQUIRED)
+find_package(Threads REQUIRED)
 add_library(semaphores semaphores.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
