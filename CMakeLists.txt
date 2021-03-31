@@ -46,4 +46,4 @@ install(
       ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfig.cmake
       ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfigVersion.cmake
     DESTINATION ${INSTALL_CONFIGDIR}
-))
+)
