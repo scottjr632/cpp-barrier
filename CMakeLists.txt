@@ -15,6 +15,7 @@ add_library(rezsemaphores semaphores.cpp)
 set_target_properties(rezsemaphores PROPERTIES PUBLIC_HEADER rezsemaphores.hpp)
 
 add_library(Rezsemaphores::rezsemaphores ALIAS rezsemaphores)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/RezSem)
 install(TARGETS rezsemaphores
         PUBLIC_HEADER
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
