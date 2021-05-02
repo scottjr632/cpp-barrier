@@ -23,37 +23,24 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/tests/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/tests/build --config ${{env.BUILD_TYPE}}
-      
-    - name: LS
       run: |
-        ls -al tests
-        ls -al tests/build
-      
-    - name: PWD
-      run: pwd
-      
-    - name: make
+        which cmake
+        cmake --version
+        mkdir build
+        
+    - name: Run CMake
+      working-directory: ${{github.workspace}}/tests/build
+      run: |
+        cmake ../.
+        
+    - name: Make
       working-directory: ${{github.workspace}}/tests/build
       run: |
         make
-        ls -al
-        pwd
-
+        
     - name: Test
       working-directory: ${{github.workspace}}/tests/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: |
-        pwd
-        ls -al
-        ./tests
+      run: ./tests
 
     - name: Debug with tmate on failure
       if: ${{ failure() }}
