@@ -7,10 +7,6 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
-
 jobs:
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -22,27 +18,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Configure CMake
-      run: |
-        which cmake
-        cmake --version
-        mkdir -p tests/build
+    - name: Create build directory
+      run: mkdir -p tests/build
         
     - name: Run CMake
       working-directory: ${{github.workspace}}/tests/build
-      run: |
-        cmake ../.
+      run: cmake ../.
         
-    - name: Make
+    - name: Build
       working-directory: ${{github.workspace}}/tests/build
-      run: |
-        make
+      run: make
         
-    - name: Test
+    - name: Run tests
       working-directory: ${{github.workspace}}/tests/build
       run: ./tests
-
-    - name: Debug with tmate on failure
-      if: ${{ failure() }}
-      uses: mxschmitt/action-tmate@v3
-      
