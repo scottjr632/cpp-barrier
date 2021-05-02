@@ -28,6 +28,12 @@ All you need to do is to include `rezsemaphores.hpp` and you're good to go
 
 You can either grab the latest [version](https://raw.githubusercontent.com/scottjr632/resizable-semaphores/v1.0.0/include/rezsem/rezsemaphores.hpp) or clone the repository and include the `include` directory.
 
+Example
+
+```bash
+$ wget https://raw.githubusercontent.com/scottjr632/resizable-semaphores/v1.0.0/include/rezsem/rezsemaphores.hpp -P rezsem
+```
+
 ## Usage
 
 Semaphores can be initialized 
@@ -60,6 +66,12 @@ To release the lock you can use
 ```cpp
 s.Release(); // Releases one by default
 s.Release(n); // Releases N
+```
+
+Resizing the limit of the semaphore can be done using 
+
+```cpp
+s.SetLimit(n); // s.GetLimit() == n
 ```
 
 ## Examples
