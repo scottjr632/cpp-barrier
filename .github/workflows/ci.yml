@@ -1,10 +1,11 @@
-name: CMake
+name: CI
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -29,6 +30,12 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/tests/build --config ${{env.BUILD_TYPE}}
+      
+    - name: LS
+      run: ls -al
+    
+    - name: PWD
+      run: pwd
 
     - name: Test
       working-directory: ${{github.workspace}}/tests/build
