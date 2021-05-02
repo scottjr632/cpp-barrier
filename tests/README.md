@@ -17,6 +17,6 @@ $ cd build
 $ cmake ../. -G "Visual Studio 15 2017"
 ```
 
-Open REZSEM.sln
-Build tests in RELEASE | x64
-Run tests.exe
+- Open REZSEM.sln
+- Build tests in RELEASE | x64
+- Run tests.exe
