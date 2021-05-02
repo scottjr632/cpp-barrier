@@ -1,50 +1,27 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(rezsemaphores VERSION 0.1.0)
+cmake_minimum_required(VERSION 3.8)
+project(rezsem VERSION 1.0.0 LANGUAGES CXX)
+option(REZSEM_BUILD_TESTS OFF)
 
-include(CTest)
+include(GNUInstallDirs)
 
-option(BUILD_TESTING "Build unit tests" OFF)
+add_library(rezsem INTERFACE)
+add_library(rezsem::rezsem ALIAS rezsem)
 
-if (BUILD_TESTING)
-  enable_testing()
-  add_subdirectory(tests)
+target_compile_features(rezsem INTERFACE cxx_std_17)
+target_include_directories(rezsem INTERFACE
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>)
+
+if(ARGPARSE_BUILD_TESTS)
+  add_subdirectory(test)
 endif()
 
-find_package(Threads REQUIRED)
-add_library(rezsemaphores semaphores.cpp)
-set_target_properties(rezsemaphores PROPERTIES PUBLIC_HEADER rezsemaphores.hpp)
+install(TARGETS rezsem EXPORT rezsemConfig)
+install(EXPORT rezsemConfig
+        NAMESPACE rezsem::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/rezsem)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/include/rezsem/rezsem.hpp
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rezsem)
 
-add_library(Rezsemaphores::rezsemaphores ALIAS rezsemaphores)
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/RezSem)
-install(TARGETS rezsemaphores
-        PUBLIC_HEADER
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
-
-#####################
-# ConfigVersion file
-##
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
-
-configure_package_config_file(
-    ${CMAKE_CURRENT_LIST_DIR}/CMake/RezSemConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfig.cmake
-    INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
-)
-
-## Install all the helper files
-install(
-    FILES
-      ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfig.cmake
-      ${CMAKE_CURRENT_BINARY_DIR}/RezSemConfigVersion.cmake
-    DESTINATION ${INSTALL_CONFIGDIR}
-)
+export(EXPORT rezsemConfig
+       NAMESPACE rezsem::)
