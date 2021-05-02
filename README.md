@@ -1,75 +1,65 @@
 # RezSem - Resizable Semaphores
 
-A fast resizable semaphore implementation for cpp!
+<p>
 
-## Installing
+  <a href="https://github.com/p-ranav/argparse/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
+  </a>
+  <img src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" alt="version"/>
+</p>
 
-The easiest way to currently install the rezsem library is using `cmake` and install the library into a local path.
+## Highlights
 
-### Setup
+A fast adaptive semaphore lock implementation for cpp!
 
-It is best to install this library to a local path instead of a system path. For the rest of the instillation guide the environment variable `MY_INSTALL_DIR` will hold the local path.
+* Single header file
+* MIT License
+* Require C++17
 
-```bash
-$ export MY_INSTALL_DIR=$HOME/.local
+## Quick Start
+
+All you need to do is to include `rezsemaphores.hpp` and you're good to go
+
+```cpp
+#include <rezsem/rezsemaphores.hpp>
 ```
 
-Create the local path if it doesn't exists:
+You can either grab the latest [version](https://raw.githubusercontent.com/scottjr632/resizable-semaphores/0.1/include/rezsem/rezsemaphores.hpp) or clone the repository and include the `include` directory.
 
-```bash
-$ mkdir -p $MY_INSTALL_DIR
+## Usage
+
+Semaphores can be initialized 
+
+```cpp
+rezsem::Semaphore s(<initial count>, <limit>);
 ```
 
-Add the local `bin` to your path:
+You can acquire a semaphore by using the `Acquire` method.
+Acquire will block until the requested number of locks are acquired.
 
-```bash
-$ export PATH="$PATH:$MY_INSTALL_DIR/bin"
+```cpp
+rezsem::Semaphore s(<initial count>, <limit>);
+
+s.Acquire(); // will be default increment count by one
+s.Acquire(n); // will increment the count by `n`
 ```
 
-### Installing cmake
+If you do not want to block waiting on a lock to become free, you can use the
+`TryAcquire(n)` or `TryAcquire()` methods.
 
-RezSem needs `cmake version >= 3.10`. This can be checked by running `cmake --version`.
+```cpp
+rezsem::Semaphore s(<initial count>, <limit>);
 
-In general `cmake` can be installed
-
-- Linux
-  ```bash
-  $ sudo apt install cmake
-  ```
-- MacOS
-  ```bash
-  $ brew install cmake
-  ```
-
-### Installing other required tools
-
-- Linux
-
-  ```bash
-  $ sudo apt install -y build-essential autoconf libtool pkg-config
-  ```
-- macOS
-  ```bash
-  $ brew install autoconf automake libtool pkg-config
-  ```
-
-### Clone the `rezsem` repo
-
-```bash
-$ git clone https://github.com/scottjr632/resizable-semaphores.git
+s.TryAcquire(); // will not block. Will return true if lock is acquired or false if not
 ```
 
-### Build and install `rezsem`
+To release the lock you can use
 
-The following commands will build and locally install `rezsem`.
-
-```bash
-$ mkdir -p cmake/build
-$ pushd cmake/build
-$ cmake \
-  -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
-  ../..
-$ make
-$ make install
-$ popd
+```cpp
+s.Release(); // Releases one by default
+s.Release(n); // Releases N
 ```
+
+## Examples
+
+For examples please see the [tests/test_*.cpp](./tests) files.
