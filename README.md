@@ -1,11 +1,13 @@
 # RezSem - Resizable Semaphores
 
 <p>
-
+  <a href="https://github.com/scottjr632/resizable-semaphores/actions/workflows/ci.yml">
+    <img src="https://github.com/scottjr632/resizable-semaphores/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  </a>
   <a href="https://github.com/p-ranav/argparse/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
   </a>
-  <img src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" alt="version"/>
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" alt="version"/>
 </p>
 
 ## Highlights
@@ -24,7 +26,7 @@ All you need to do is to include `rezsemaphores.hpp` and you're good to go
 #include <rezsem/rezsemaphores.hpp>
 ```
 
-You can either grab the latest [version](https://raw.githubusercontent.com/scottjr632/resizable-semaphores/0.1/include/rezsem/rezsemaphores.hpp) or clone the repository and include the `include` directory.
+You can either grab the latest [version](https://raw.githubusercontent.com/scottjr632/resizable-semaphores/v1.0.0/include/rezsem/rezsemaphores.hpp) or clone the repository and include the `include` directory.
 
 ## Usage
 
