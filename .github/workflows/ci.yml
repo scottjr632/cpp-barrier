@@ -26,7 +26,7 @@ jobs:
       run: |
         which cmake
         cmake --version
-        mkdir build
+        mkdir -p tests/build
         
     - name: Run CMake
       working-directory: ${{github.workspace}}/tests/build
