@@ -4,7 +4,7 @@
   <a href="https://github.com/scottjr632/resizable-semaphores/actions/workflows/ci.yml">
     <img src="https://github.com/scottjr632/resizable-semaphores/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
-  <a href="https://github.com/p-ranav/argparse/blob/master/LICENSE">
+  <a href="https://github.com/scottjr632/resizable-semaphores/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
   </a>
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" alt="version"/>
