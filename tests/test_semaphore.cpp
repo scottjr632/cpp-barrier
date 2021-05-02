@@ -71,3 +71,14 @@ TEST_CASE("Acquire and release") {
     s.Release();
     CHECK(s.GetCount() == 0);
 }
+
+TEST_CASE("Resizing the limit") {
+    rezsem::Semaphore s(0, 1);
+    CHECK(s.GetLimit() == 1);
+
+    s.SetLimit(10);
+    CHECK(s.GetLimit() == 10);
+
+    CHECK(s.TryAcquire(5) == true);
+    CHECK(s.TryAcquire(5) == true);
+}
