@@ -1,5 +1,7 @@
 # RezSem Tests
 
+Tests can be compiled by using CMake from the root directory.
+
 ## Linux
 
 ```bash
@@ -14,9 +16,7 @@ $ ./tests
 ```powershell
 $ mkdir build
 $ cd build
-$ cmake ../. -G "Visual Studio 15 2017"
+$ cmake ../.
+$ msbuild rezsem.sln
+$ .\tests\Debug\tests.exe
 ```
-
-- Open REZSEM.sln
-- Build tests in RELEASE | x64
-- Run tests.exe
