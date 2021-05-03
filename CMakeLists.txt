@@ -12,8 +12,8 @@ target_include_directories(rezsem INTERFACE
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>)
 
-if(ARGPARSE_BUILD_TESTS)
-  add_subdirectory(test)
+if(REZSEM_BUILD_TESTS)
+  add_subdirectory(tests)
 endif()
 
 install(TARGETS rezsem EXPORT rezsemConfig)
