@@ -14,6 +14,7 @@ target_include_directories(rezsem INTERFACE
 
 if(REZSEM_BUILD_TESTS)
   add_subdirectory(tests)
+  add_subdirectory(bench)
 endif()
 
 install(TARGETS rezsem EXPORT rezsemConfig)
