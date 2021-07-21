@@ -1,0 +1,3 @@
+{
+    "cmake.configureSettings": { "BARRIER_BUILD_TESTS": "ON" }
+}
